@@ -2,7 +2,8 @@
 // Created by Gabriel Augendre on 27/04/2021.
 //
 
-#include "lib.h"
+#include <lib.h>
+#include <Arduino.h>
 
 void waitForButton() {
     while (digitalRead(BUTTON) == HIGH) {}

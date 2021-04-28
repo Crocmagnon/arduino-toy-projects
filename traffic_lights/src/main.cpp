@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "lib.h"
+#include <lib.h>
 
 void setup() {
     pinMode(GREEN, OUTPUT);
