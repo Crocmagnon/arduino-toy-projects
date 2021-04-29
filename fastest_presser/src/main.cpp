@@ -9,7 +9,7 @@
 #define PLAYER_B 3
 #define TIE 0
 
-LiquidCrystal lcd(12, 11, 4, 5, 6, 7);
+LiquidCrystal lcd(9, 8, 4, 5, 6, 7);
 unsigned int scoreA = 0;
 unsigned int scoreB = 0;
 
