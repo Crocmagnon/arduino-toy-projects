@@ -8,6 +8,7 @@ LiquidCrystal lcd(9, 8, 4, 5, 6, 7);
 byte sequence[MAX_GAME] = {};
 int8_t currentPosition = -1;
 bool win = true;
+bool over = false;
 
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
@@ -24,6 +25,9 @@ void setup() {
 
 void loop() {
     if (currentPosition + 1 >= MAX_GAME) {
+        over = true;
+    }
+    if (over) {
         endGame(lcd, win, currentPosition);
         return;
     }
@@ -35,7 +39,7 @@ void loop() {
     playSequence(sequence, currentPosition);
     if (!userSequence(sequence, currentPosition)) {
         win = false;
-        currentPosition = MAX_GAME;
+        over = true;
     }
 
     delay(2000);
