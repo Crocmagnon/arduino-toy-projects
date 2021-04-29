@@ -31,3 +31,12 @@ void deactivateAll() {
         digitalWrite(led, LOW);
     }
 }
+
+void playSequence(const byte sequence[], byte upTo) {
+    for (byte i = 0; i <= upTo; i++) {
+        activate(sequence[i]);
+        delay(300);
+        deactivateAll();
+        delay(15);
+    }
+}
