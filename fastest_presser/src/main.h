@@ -7,5 +7,9 @@
 
 void displayCountdown();
 void displayDigit(const char *digit);
+byte computeWinner();
+void lcdSecondLine();
+void printScore();
+void waitForReady();
 
 #endif //FASTEST_PRESSER_MAIN_H
