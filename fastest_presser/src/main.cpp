@@ -82,7 +82,6 @@ byte computeWinner() {
         // Wait for a button press
         playerA = digitalRead(PLAYER_A);
         playerB = digitalRead(PLAYER_B);
-        delay(1);
     }
     if (playerA == LOW && playerB == HIGH) {
         return PLAYER_A;
@@ -121,7 +120,6 @@ void waitForReady() {
         // Wait for a button press
         playerA = digitalRead(PLAYER_A);
         playerB = digitalRead(PLAYER_B);
-        delay(1);
     }
 
     if (playerB == LOW) {
