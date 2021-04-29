@@ -24,6 +24,7 @@
 #define TONE_YELLOW 277
 #define TONE_BLUE 329
 #define TONE_RED 440
+#define TONE_ERROR 100
 
 // Indices in the constants tables
 #define GREEN 0
@@ -32,9 +33,5 @@
 #define RED 3
 
 #define MAX_GAME 10
-
-const uint8_t LEDS[] = {LED_GREEN, LED_YELLOW, LED_BLUE, LED_RED};
-const uint8_t BUTTONS[] = {BUTTON_GREEN, BUTTON_YELLOW, BUTTON_BLUE, BUTTON_RED};
-const uint16_t TONES[] = {TONE_GREEN, TONE_YELLOW, TONE_BLUE, TONE_RED};
 
 #endif //SUPER_SIMON_MAIN_H

@@ -7,6 +7,7 @@
 LiquidCrystal lcd(9, 8, 4, 5, 6, 7);
 byte sequence[MAX_GAME] = {};
 int8_t currentPosition = -1;
+bool win = true;
 
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
@@ -15,13 +16,7 @@ void setup() {
     lcd.print("Super Simon");
     randomSeed(analogRead(A0));
     pinMode(BUZZER, OUTPUT);
-    for (byte i = 0; i < 4; i++) {
-        const byte led = LEDS[i];
-        pinMode(led, OUTPUT);
-        pinMode(BUTTONS[i], INPUT_PULLUP);
-        activate(i);
-        delay(300);
-    }
+    configure();
     deactivateAll();
     digitalWrite(LED_BUILTIN, LOW);
     delay(2000);
@@ -29,16 +24,19 @@ void setup() {
 
 void loop() {
     if (currentPosition + 1 >= MAX_GAME) {
-        lcd.clear();
-        lcd.print("Bravo!");
-        delay(10000);
+        endGame(lcd, win, currentPosition);
         return;
     }
 
     currentPosition += 1;
     byte newItem = random(0, 4);
     sequence[currentPosition] = newItem;
+
     playSequence(sequence, currentPosition);
+    if (!userSequence(sequence, currentPosition)) {
+        win = false;
+        currentPosition = MAX_GAME;
+    }
 
     delay(2000);
 }
