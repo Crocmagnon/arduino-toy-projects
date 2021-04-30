@@ -90,6 +90,7 @@ byte waitForButton() {
 void endGame(LiquidCrystal lcd, bool win, byte score) {
     lcd.clear();
     if (win) {
+        score++;  // Compensate for missing "+1" in the main loop.
         lcd.print("Bravo!");
     }
     else {
