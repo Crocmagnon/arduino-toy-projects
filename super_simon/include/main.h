@@ -26,12 +26,6 @@
 #define TONE_RED 440
 #define TONE_ERROR 100
 
-// Indices in the constants tables
-#define GREEN 0
-#define YELLOW 1
-#define BLUE 2
-#define RED 3
-
-#define MAX_GAME 10
+#define MAX_GAME 20
 
 #endif //SUPER_SIMON_MAIN_H
