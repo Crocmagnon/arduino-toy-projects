@@ -15,5 +15,6 @@ byte waitForButton();
 void error();
 void endGame(LiquidCrystal lcd, bool win, byte score);
 void configure();
+void blink(byte index);
 
 #endif //SUPER_SIMON_UTILS_H

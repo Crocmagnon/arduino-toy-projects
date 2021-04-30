@@ -65,6 +65,7 @@ bool userSequence(const byte sequence[], byte upTo) {
         }
         else {
             error();
+            blink(expectedButton);
             return false;
         }
     }
@@ -97,4 +98,13 @@ void endGame(LiquidCrystal lcd, bool win, byte score) {
     lcd.setCursor(0, 1);
     lcd.print(score);
     delay(10000);
+}
+
+void blink(byte index) {
+    for (byte i = 0; i < 3; i++) {
+        digitalWrite(LEDS[index], HIGH);
+        delay(100);
+        digitalWrite(LEDS[index], LOW);
+        delay(100);
+    }
 }
