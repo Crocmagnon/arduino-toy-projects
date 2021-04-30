@@ -20,7 +20,6 @@ void setup() {
     configure();
     deactivateAll();
     digitalWrite(LED_BUILTIN, LOW);
-    delay(2000);
 }
 
 void loop() {
@@ -32,6 +31,8 @@ void loop() {
         return;
     }
 
+    delay(1200);
+
     currentPosition += 1;
     byte newItem = random(0, 4);
     sequence[currentPosition] = newItem;
@@ -41,6 +42,4 @@ void loop() {
         win = false;
         over = true;
     }
-
-    delay(2000);
 }
