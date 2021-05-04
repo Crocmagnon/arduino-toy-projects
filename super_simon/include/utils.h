@@ -12,7 +12,9 @@ void deactivateAll();
 void playSequence(const byte sequence[], byte upTo);
 bool userSequence(const byte sequence[], byte upTo);
 byte waitForButton();
-void error();
+
+void error(byte index);
+
 void endGame(LiquidCrystal lcd, bool win, byte score);
 void configure();
 void blink(byte index);

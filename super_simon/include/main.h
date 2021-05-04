@@ -8,10 +8,10 @@
 #define LCD_COLS 16
 #define LCD_ROWS 2
 
-#define BUZZER 11
+#define BUZZER 10
 
 #define BUTTON_GREEN 2
-#define BUTTON_YELLOW 10
+#define BUTTON_YELLOW 11
 #define BUTTON_BLUE 12
 #define BUTTON_RED 3
 
@@ -25,6 +25,8 @@
 #define TONE_BLUE 329
 #define TONE_RED 440
 #define TONE_ERROR 100
+
+#define GREEN_INDEX 0
 
 #define MAX_GAME 20
 

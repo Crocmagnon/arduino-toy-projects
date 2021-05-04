@@ -11,8 +11,12 @@
 const uint8_t LEDS[] = {LED_GREEN, LED_YELLOW, LED_BLUE, LED_RED};
 const uint8_t BUTTONS[] = {BUTTON_GREEN, BUTTON_YELLOW, BUTTON_BLUE, BUTTON_RED};
 const uint16_t TONES[] = {TONE_GREEN, TONE_YELLOW, TONE_BLUE, TONE_RED};
+bool soundEnabled = true;
 
 void configure() {
+    if (buttonIsPressed(GREEN_INDEX)) {
+        soundEnabled = false;
+    }
     for (byte i = 0; i < 4; i++) {
         const byte led = LEDS[i];
         pinMode(led, OUTPUT);
@@ -31,7 +35,9 @@ void activate(byte index) {
 }
 
 void buzz(byte index, unsigned long duration) {
-    tone(BUZZER, TONES[index], duration);
+    if (soundEnabled) {
+        tone(BUZZER, TONES[index], duration);
+    }
 }
 
 bool buttonIsPressed(byte index) {
@@ -64,16 +70,18 @@ bool userSequence(const byte sequence[], byte upTo) {
             deactivateAll();
         }
         else {
-            error();
-            blink(expectedButton);
+            error(expectedButton);
             return false;
         }
     }
     return true;
 }
 
-void error() {
-    tone(BUZZER, TONE_ERROR, 500);
+void error(byte expectedButton) {
+    if (soundEnabled) {
+        tone(BUZZER, TONE_ERROR, 500);
+    }
+    blink(expectedButton);
     delay(500);
 }
 
