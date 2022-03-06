@@ -14,6 +14,7 @@ const uint16_t TONES[] = {TONE_GREEN, TONE_YELLOW, TONE_BLUE, TONE_RED};
 bool soundEnabled = true;
 
 void configure() {
+    pinMode(BUTTON_GREEN, INPUT_PULLUP);
     if (buttonIsPressed(GREEN_INDEX)) {
         soundEnabled = false;
     }
