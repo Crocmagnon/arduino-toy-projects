@@ -8,6 +8,7 @@
 void displayCountdown();
 void displayDigit(const char *digit);
 byte computeWinner();
+byte isCheating();
 void lcdSecondLine();
 void printScore();
 void waitForReady();

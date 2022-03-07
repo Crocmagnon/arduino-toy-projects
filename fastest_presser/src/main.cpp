@@ -5,19 +5,19 @@
 #define LCD_COLS 16
 #define LCD_ROWS 2
 
-#define PLAYER_A 2
-#define PLAYER_B 3
-#define TIE 0
+#define PLAYER_GREEN 2
+#define PLAYER_RED 3
+#define TIE 1
 
 LiquidCrystal lcd(9, 8, 4, 5, 6, 7);
-unsigned int scoreA = 0;
-unsigned int scoreB = 0;
+int scoreGreen = 0;
+int scoreRed = 0;
 
 void setup() {
     pinMode(LED_BUILTIN, OUTPUT);
     digitalWrite(LED_BUILTIN, LOW);
-    pinMode(PLAYER_A, INPUT_PULLUP);
-    pinMode(PLAYER_B, INPUT_PULLUP);
+    pinMode(PLAYER_GREEN, INPUT_PULLUP);
+    pinMode(PLAYER_RED, INPUT_PULLUP);
     randomSeed(analogRead(0));
     lcd.begin(LCD_COLS, LCD_ROWS);
 }
@@ -27,29 +27,56 @@ void loop() {
     displayCountdown();
     delay(1000);
     byte randomWait = random(6, 32);
+    byte cheating = 0;
     lcd.clear();
     for (byte i = 0; i < randomWait; i++) {
         if (i == LCD_COLS) {
             lcdSecondLine();
         }
         lcd.print(".");
-        delay(500);
-    }
-    lcd.clear();
-    lcd.print("Maintenant !");
 
-    const byte winner = computeWinner();
-    lcd.clear();
-    if (winner == PLAYER_A) {
-        lcd.print("Bravo joueur A !");
-        scoreA += 1;
+        cheating = isCheating();
+        if (cheating) {
+            break;
+        }
     }
-    else if (winner == PLAYER_B) {
-        lcd.print("Bravo joueur B !");
-        scoreB += 1;
+    lcd.clear();
+    if (cheating) {
+        lcd.print("Pas de triche !");
+        lcdSecondLine();
+        if (cheating == PLAYER_GREEN) {
+            lcd.print("Joueur vert: -1");
+            scoreGreen -= 1;
+        }
+        else if (cheating == PLAYER_RED) {
+            lcd.print("Joueur rouge: -1");
+            scoreRed -= 1;
+        }
+        else {
+            lcd.print("Joueurs : -1");
+            scoreGreen -= 1;
+            scoreRed -= 1;
+        }
     }
     else {
-        lcd.print("Egalite");
+        lcd.print("Maintenant !");
+
+        const byte winner = computeWinner();
+        lcd.clear();
+        if (winner == PLAYER_GREEN) {
+            lcd.print("Bravo joueur");
+            lcdSecondLine();
+            lcd.print("vert !");
+            scoreGreen += 1;
+        }
+        else if (winner == PLAYER_RED) {
+            lcd.print("Bravo joueur");
+            lcd.print("rouge !");
+            scoreRed += 1;
+        }
+        else {
+            lcd.print("Egalite");
+        }
     }
     delay(4000);
     printScore();
@@ -76,21 +103,47 @@ void displayDigit(const char *digit) {
 }
 
 byte computeWinner() {
-    int playerA = digitalRead(PLAYER_A);
-    int playerB = digitalRead(PLAYER_B);
-    while (playerA == HIGH && playerB == HIGH) {
+    int playerGreen = digitalRead(PLAYER_GREEN);
+    int playerRed = digitalRead(PLAYER_RED);
+    while (playerGreen == HIGH && playerRed == HIGH) {
         // Wait for a button press
-        playerA = digitalRead(PLAYER_A);
-        playerB = digitalRead(PLAYER_B);
+        playerGreen = digitalRead(PLAYER_GREEN);
+        playerRed = digitalRead(PLAYER_RED);
     }
-    if (playerA == LOW && playerB == HIGH) {
-        return PLAYER_A;
+    if (playerGreen == LOW && playerRed == HIGH) {
+        return PLAYER_GREEN;
     }
-    if (playerA == HIGH && playerB == LOW) {
-        return PLAYER_B;
+    if (playerGreen == HIGH && playerRed == LOW) {
+        return PLAYER_RED;
     }
     else {
         return TIE;
+    }
+}
+
+byte isCheating() {
+    int playerGreen = digitalRead(PLAYER_GREEN);
+    int playerRed = digitalRead(PLAYER_RED);
+    int timer = 0;
+    int maxTimer = 500;
+    while (timer < maxTimer && playerGreen == HIGH && playerRed == HIGH) {
+        // Wait for a button press
+        playerGreen = digitalRead(PLAYER_GREEN);
+        playerRed = digitalRead(PLAYER_RED);
+        timer += 10;
+        delay(10);
+    }
+    if (playerGreen == LOW && playerRed == HIGH) {
+        return PLAYER_GREEN;
+    }
+    else if (playerGreen == HIGH && playerRed == LOW) {
+        return PLAYER_RED;
+    }
+    else if (playerGreen == LOW && playerRed == LOW) {
+        return TIE;
+    }
+    else {
+        return 0;
     }
 }
 
@@ -100,29 +153,29 @@ void lcdSecondLine() {
 
 void printScore() {
     lcd.clear();
-    lcd.print("A: ");
-    lcd.print(scoreA);
+    lcd.print("Vert: ");
+    lcd.print(scoreGreen);
     lcdSecondLine();
-    lcd.print("B: ");
-    lcd.print(scoreB);
+    lcd.print("Rouge: ");
+    lcd.print(scoreRed);
     delay(2000);
 }
 
 void waitForReady() {
     lcd.clear();
-    lcd.print("A: Commencer");
+    lcd.print("Vert: Commencer");
     lcdSecondLine();
-    lcd.print("B: Scores");
+    lcd.print("Rouge: Scores");
 
-    int playerA = digitalRead(PLAYER_A);
-    int playerB = digitalRead(PLAYER_B);
-    while (playerA == HIGH && playerB == HIGH) {
+    int playerGreen = digitalRead(PLAYER_GREEN);
+    int playerRed = digitalRead(PLAYER_RED);
+    while (playerGreen == HIGH && playerRed == HIGH) {
         // Wait for a button press
-        playerA = digitalRead(PLAYER_A);
-        playerB = digitalRead(PLAYER_B);
+        playerGreen = digitalRead(PLAYER_GREEN);
+        playerRed = digitalRead(PLAYER_RED);
     }
 
-    if (playerB == LOW) {
+    if (playerRed == LOW) {
         printScore();
         waitForReady();
     }
